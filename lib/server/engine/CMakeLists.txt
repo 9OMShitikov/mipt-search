@@ -1,0 +1,1 @@
+add_library(Ranking ranking.h ranking.cpp)

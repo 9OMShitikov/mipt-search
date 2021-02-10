@@ -1,0 +1,1 @@
+add_catch(test_client test.cpp cmdparser.cpp)
