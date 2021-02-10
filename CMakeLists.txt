@@ -45,7 +45,7 @@ if (CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
 endif ()
 
 find_package(FLEX REQUIRED)
-find_package(BISON 3.5 REQUIRED)
+find_package(BISON 3.7 REQUIRED)
 
 # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${mipt-infra_SOURCE_DIR})
 
