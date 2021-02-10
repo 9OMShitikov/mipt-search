@@ -1,1 +1,1 @@
-add_catch(test_stemming stemming.cpp test.cpp)
+# add_catch(test_stemming stemming.cpp test.cpp)
