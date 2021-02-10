@@ -100,6 +100,8 @@ set(SOURCE_INDEXER
     lib/server/index/ram.cpp
     lib/server/engine/ranking.cpp
     lib/server/morphology/stemming.cpp
+    lib/server/morphology/morph.cpp
+    lib/server/morphology/lower.cpp
 )
 
 set(BASEPATH "${CMAKE_SOURCE_DIR}")

@@ -5,6 +5,7 @@
 *.so
 *.dylib
 *.txt
+!CMakeLists.txt
 *__pycache__
 bin/*
 
@@ -17,6 +18,8 @@ data
 *parser.cpp
 *parser.hh
 *scanner.cpp
+
+!cmdparser.cpp
 
 # Test binary, built with `go test -c`
 *.test

@@ -76,10 +76,11 @@
 %%
 %start query;
 
-// query:
-//    select_query { driver.parsed = $1; }
-//    | insert_query { driver.parsed = $1; }
-// ;
+query:
+    { driver.parsed = nullptr; }
+    // select_query { driver.parsed = $1; }
+    // | insert_query { driver.parsed = $1; }
+;
 
 // Your code goes here...
 // Write rules for queries

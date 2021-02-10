@@ -31,12 +31,12 @@
 // version 2.2 of Bison.
 
 /**
- ** \file /Users/aaponomarev/mipt-search-course/lib/server/sql/location.hh
+ ** \file /Users/aaponomarev/mipt-bigdata-infra-2021/lib/server/sql/location.hh
  ** Define the yy::location class.
  */
 
-#ifndef YY_YY_USERS_AAPONOMAREV_MIPT_SEARCH_COURSE_LIB_SERVER_SQL_LOCATION_HH_INCLUDED
-# define YY_YY_USERS_AAPONOMAREV_MIPT_SEARCH_COURSE_LIB_SERVER_SQL_LOCATION_HH_INCLUDED
+#ifndef YY_YY_USERS_AAPONOMAREV_MIPT_BIGDATA_INFRA_2021_LIB_SERVER_SQL_LOCATION_HH_INCLUDED
+# define YY_YY_USERS_AAPONOMAREV_MIPT_BIGDATA_INFRA_2021_LIB_SERVER_SQL_LOCATION_HH_INCLUDED
 
 # include <iostream>
 # include <string>
@@ -54,7 +54,7 @@
 # endif
 
 namespace yy {
-#line 58 "/Users/aaponomarev/mipt-search-course/lib/server/sql/location.hh"
+#line 58 "/Users/aaponomarev/mipt-bigdata-infra-2021/lib/server/sql/location.hh"
 
   /// A point in a source file.
   class position
@@ -299,6 +299,6 @@ namespace yy {
   }
 
 } // yy
-#line 303 "/Users/aaponomarev/mipt-search-course/lib/server/sql/location.hh"
+#line 303 "/Users/aaponomarev/mipt-bigdata-infra-2021/lib/server/sql/location.hh"
 
-#endif // !YY_YY_USERS_AAPONOMAREV_MIPT_SEARCH_COURSE_LIB_SERVER_SQL_LOCATION_HH_INCLUDED
+#endif // !YY_YY_USERS_AAPONOMAREV_MIPT_BIGDATA_INFRA_2021_LIB_SERVER_SQL_LOCATION_HH_INCLUDED

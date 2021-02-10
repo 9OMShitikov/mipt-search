@@ -27,13 +27,20 @@
   );
 %}
 
-// Your code goes here...
-// Add utf-8 support
+%{
+/** Your code goes here... **/
+/** Add utf-8 support **/
+%}
+alpha   [A-Za-z_0-9 \t\r]
+
 
 id    [a-zA-Z][a-zA-Z_0-9]*
 int   [0-9]+
 blank [ \t\r]
-quoted_string \"{uname}*\"
+quoted_string \"{alpha}*\"
+%{
+/** Change here after support UTF-8 **/
+%}
 
 %{
   // Code run each time a pattern is matched.
@@ -55,8 +62,6 @@ quoted_string \"{uname}*\"
 ";"        return yy::parser::make_ENDLINE  (loc);
 ","        return yy::parser::make_COMMA    (loc);
 "*"        return yy::parser::make_STAR     (loc);
-
-// Your code goes here...
 
 {id}       return yy::parser::make_NAME     (yytext, loc);
 {quoted_string} return make_QUOTED (yytext, loc);
