@@ -1,5 +1,7 @@
 #include "ranking.h"
 
+#include <stdexcept>
+
 void DummyRanker::Init(IndexStats) {
 	// Your code goes here
 };

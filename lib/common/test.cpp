@@ -1,6 +1,7 @@
 #include <catch.hpp>
 
 #include <sstream>
+#include <cstring>
 
 #include "compression.h"
 

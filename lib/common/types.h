@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <cassert>
+#include <memory>
 
 #define c_size(container) static_cast<int>((container).size())
 
