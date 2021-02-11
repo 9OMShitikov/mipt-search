@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <cassert>
 #include <memory>
+#include <stdexcept>
 
 #define c_size(container) static_cast<int>((container).size())
 

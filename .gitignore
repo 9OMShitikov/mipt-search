@@ -18,6 +18,7 @@ data
 *parser.cpp
 *parser.hh
 *scanner.cpp
+*location.hh
 
 !cmdparser.cpp
 
