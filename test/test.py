@@ -1,23 +1,25 @@
-from wrapper import SearchServer, SearchClient
+from wrapper import TestTemplate
 
 import pytest
-import requests
 
 
-class TestTemplate:
-    def setup(self):
-        self.server = SearchServer()
-        self.server.run()
-        self.client = SearchClient(self.server)
+class TestJsonHTTP(TestTemplate):
+    def test_ok(self):
+        self.execute({
+            'index': 'category_0',
+            'match': 'iPhone'
+        }, Proto.JSON)
 
-    def teardown(self):
-        self.server.shutdown()
+    def test_incorrect_query(self):
+        with pytest.raises(Exception):
+            self.execute({
+                'index': 'category_0',
+            }, Proto.JSON)
 
-    def execute(self, query):
-        return self.client.execute(query)
-
-    def ping(self):
-        return self.client.ping()
+        with pytest.raises(Exception):
+            self.execute({
+                'match': 'iPhone'
+            }, Proto.JSON)
 
 
 class TestClassBasic(TestTemplate):
