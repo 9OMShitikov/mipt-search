@@ -1,0 +1,2 @@
+class BadStatus(Exception):
+    pass
