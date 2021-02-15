@@ -84,3 +84,19 @@ TEST_CASE("(CMDParser) One line several queries 2") {
 	REQUIRE(!parser.Parse());
 	REQUIRE(!parser.IsCompleted());
 }
+
+TEST_CASE("(CMDParser) Query ending with \n") {
+    std::string query = "SELECT *;\n";
+
+    std::stringstream in(query), out;
+    CommandLineParser parser(in, out);
+
+    REQUIRE(parser.Parse());
+    REQUIRE(parser.IsCompleted());
+
+    REQUIRE(parser.GetQuery() == "SELECT *;");
+    REQUIRE(out.str() == "mipt-search> ");
+
+    REQUIRE(!parser.Parse());
+    REQUIRE(!parser.IsCompleted());
+}
