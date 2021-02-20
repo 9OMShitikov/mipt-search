@@ -12,7 +12,13 @@
 /**
  * Used to specify the column format
  */
-enum class VariadicTableColumnFormat { AUTO, SCIENTIFIC, FIXED, PERCENT };
+enum class VariadicTableColumnFormat
+{
+	AUTO,
+	SCIENTIFIC,
+	FIXED,
+	PERCENT
+};
 
 /**
  * A class for "pretty printing" a table of data.
@@ -36,8 +42,9 @@ enum class VariadicTableColumnFormat { AUTO, SCIENTIFIC, FIXED, PERCENT };
  * vt.print();
  */
 template <class... Ts>
-class VariadicTable {
-   public:
+class VariadicTable
+{
+public:
 	/// The type stored for each row
 	typedef std::tuple<Ts...> DataTuple;
 
@@ -49,12 +56,13 @@ class VariadicTable {
 	 * automatically
 	 */
 	VariadicTable(std::vector<std::string> headers,
-				  unsigned int static_column_size = 0,
-				  unsigned int cell_padding = 1)
+		unsigned int static_column_size = 0,
+		unsigned int cell_padding = 1)
 		: _headers(headers)
 		, _num_columns(std::tuple_size<DataTuple>::value)
 		, _static_column_size(static_column_size)
-		, _cell_padding(cell_padding) {
+		, _cell_padding(cell_padding)
+	{
 		assert(headers.size() == _num_columns);
 	}
 
@@ -66,7 +74,8 @@ class VariadicTable {
 	 *
 	 * @param data A Tuple of data to add
 	 */
-	void addRow(Ts... entries) {
+	void addRow(Ts... entries)
+	{
 		_data.emplace_back(std::make_tuple(entries...));
 	}
 
@@ -74,7 +83,8 @@ class VariadicTable {
 	 * Pretty print the table of data
 	 */
 	template <typename StreamType>
-	void print(StreamType &stream) {
+	void print(StreamType & stream)
+	{
 		size_columns();
 
 		// Start computing the total width
@@ -82,7 +92,7 @@ class VariadicTable {
 		unsigned int total_width = _num_columns + 1;
 
 		// Now add in the size of each colum
-		for (auto &col_size : _column_sizes)
+		for (auto & col_size : _column_sizes)
 			total_width += col_size + (2 * _cell_padding);
 
 		// Print out the top line
@@ -90,7 +100,8 @@ class VariadicTable {
 
 		// Print out the headers
 		stream << "|";
-		for (unsigned int i = 0; i < _num_columns; i++) {
+		for (unsigned int i = 0; i < _num_columns; i++)
+		{
 			// Must find the center of the column
 			auto half = _column_sizes[i] / 2;
 			half -= _headers[i].size() / 2;
@@ -107,7 +118,8 @@ class VariadicTable {
 		stream << std::string(total_width, '-') << "\n";
 
 		// Now print the rows of the table
-		for (auto &row : _data) {
+		for (auto & row : _data)
+		{
 			stream << "|";
 			print_each(row, stream);
 			stream << "\n";
@@ -126,7 +138,8 @@ class VariadicTable {
 	 * number of columns.
 	 */
 	void setColumnFormat(
-		const std::vector<VariadicTableColumnFormat> &column_format) {
+		const std::vector<VariadicTableColumnFormat> & column_format)
+	{
 		assert(column_format.size() == std::tuple_size<DataTuple>::value);
 
 		_column_format = column_format;
@@ -140,12 +153,13 @@ class VariadicTable {
 	 * @column_format The precision for each column: MUST be the same length as
 	 * the number of columns.
 	 */
-	void setColumnPrecision(const std::vector<int> &precision) {
+	void setColumnPrecision(const std::vector<int> & precision)
+	{
 		assert(precision.size() == std::tuple_size<DataTuple>::value);
 		_precision = precision;
 	}
 
-   protected:
+protected:
 	// Just some handy typedefs for the following two functions
 	typedef decltype(&std::right) right_type;
 	typedef decltype(&std::left) left_type;
@@ -153,15 +167,17 @@ class VariadicTable {
 	// Attempts to figure out the correct justification for the data
 	// If it's a floating point value
 	template <typename T,
-			  typename = typename std::enable_if<std::is_arithmetic<
-				  typename std::remove_reference<T>::type>::value>::type>
-	static right_type justify(int /*firstchoice*/) {
+		typename = typename std::enable_if<std::is_arithmetic<
+			typename std::remove_reference<T>::type>::value>::type>
+	static right_type justify(int /*firstchoice*/)
+	{
 		return std::right;
 	}
 
 	// Otherwise
 	template <typename T>
-	static left_type justify(long /*secondchoice*/) {
+	static left_type justify(long /*secondchoice*/)
+	{
 		return std::left;
 	}
 
@@ -183,37 +199,40 @@ class VariadicTable {
 		TupleType &&,
 		StreamType & /*stream*/,
 		std::integral_constant<size_t,
-							   std::tuple_size<typename std::remove_reference<
-								   TupleType>::type>::value>) {}
+			std::tuple_size<typename std::remove_reference<
+				TupleType>::type>::value>)
+	{}
 
 	/**
 	 * This gets called on each item
 	 */
 	template <std::size_t I,
-			  typename TupleType,
-			  typename StreamType,
-			  typename = typename std::enable_if<
-				  I != std::tuple_size<typename std::remove_reference<
-						   TupleType>::type>::value>::type>
-	void print_each(TupleType &&t,
-					StreamType &stream,
-					std::integral_constant<size_t, I>) {
-		auto &val = std::get<I>(t);
+		typename TupleType,
+		typename StreamType,
+		typename = typename std::enable_if<
+			I != std::tuple_size<typename std::remove_reference<TupleType>::type>::value>::type>
+	void print_each(TupleType && t,
+		StreamType & stream,
+		std::integral_constant<size_t, I>)
+	{
+		auto & val = std::get<I>(t);
 
 		// Set the precision
-		if (!_precision.empty()) {
+		if (!_precision.empty())
+		{
 			assert(_precision.size() ==
-				   std::tuple_size<
-					   typename std::remove_reference<TupleType>::type>::value);
+				std::tuple_size<
+					typename std::remove_reference<TupleType>::type>::value);
 
 			stream << std::setprecision(_precision[I]);
 		}
 
 		// Set the format
-		if (!_column_format.empty()) {
+		if (!_column_format.empty())
+		{
 			assert(_column_format.size() ==
-				   std::tuple_size<
-					   typename std::remove_reference<TupleType>::type>::value);
+				std::tuple_size<
+					typename std::remove_reference<TupleType>::type>::value);
 
 			if (_column_format[I] == VariadicTableColumnFormat::SCIENTIFIC)
 				stream << std::scientific;
@@ -230,7 +249,8 @@ class VariadicTable {
 			   << std::string(_cell_padding, ' ') << "|";
 
 		// Unset the format
-		if (!_column_format.empty()) {
+		if (!_column_format.empty())
+		{
 			// Because "stream << std::defaultfloat;" won't compile with old GCC
 			// or Clang
 			stream.unsetf(std::ios_base::floatfield);
@@ -238,18 +258,19 @@ class VariadicTable {
 
 		// Recursive call to print the next item
 		print_each(std::forward<TupleType>(t),
-				   stream,
-				   std::integral_constant<size_t, I + 1>());
+			stream,
+			std::integral_constant<size_t, I + 1>());
 	}
 
 	/**
 	 * his is what gets called first
 	 */
 	template <typename TupleType, typename StreamType>
-	void print_each(TupleType &&t, StreamType &stream) {
+	void print_each(TupleType && t, StreamType & stream)
+	{
 		print_each(std::forward<TupleType>(t),
-				   stream,
-				   std::integral_constant<size_t, 0>());
+			stream,
+			std::integral_constant<size_t, 0>());
 	}
 
 	/**
@@ -258,8 +279,9 @@ class VariadicTable {
 	 * If the datatype has a size() member... let's call it
 	 */
 	template <class T>
-	size_t sizeOfData(const T &data,
-					  decltype(((T *)nullptr)->size()) * /*dummy*/ = nullptr) {
+	size_t sizeOfData(const T & data,
+		decltype(((T *)nullptr)->size()) * /*dummy*/ = nullptr)
+	{
 		return data.size();
 	}
 
@@ -270,10 +292,12 @@ class VariadicTable {
 	 */
 	template <class T>
 	size_t sizeOfData(
-		const T &data,
+		const T & data,
 		typename std::enable_if<std::is_integral<T>::value>::type * /*dummy*/ =
-			nullptr) {
-		if (data == 0) return 1;
+			nullptr)
+	{
+		if (data == 0)
+			return 1;
 
 		return std::log10(data) + 1;
 	}
@@ -296,47 +320,50 @@ class VariadicTable {
 		TupleType &&,
 		std::vector<unsigned int> & /*sizes*/,
 		std::integral_constant<size_t,
-							   std::tuple_size<typename std::remove_reference<
-								   TupleType>::type>::value>) {}
+			std::tuple_size<typename std::remove_reference<
+				TupleType>::type>::value>)
+	{}
 
 	/**
 	 * Recursively called for each element
 	 */
 	template <std::size_t I,
-			  typename TupleType,
-			  typename = typename std::enable_if<
-				  I != std::tuple_size<typename std::remove_reference<
-						   TupleType>::type>::value>::type>
-	void size_each(TupleType &&t,
-				   std::vector<unsigned int> &sizes,
-				   std::integral_constant<size_t, I>) {
+		typename TupleType,
+		typename = typename std::enable_if<
+			I != std::tuple_size<typename std::remove_reference<TupleType>::type>::value>::type>
+	void size_each(TupleType && t,
+		std::vector<unsigned int> & sizes,
+		std::integral_constant<size_t, I>)
+	{
 		sizes[I] = sizeOfData(std::get<I>(t));
 
 		// Override for Percent
 		if (!_column_format.empty())
 			if (_column_format[I] == VariadicTableColumnFormat::PERCENT)
-				sizes[I] = 6;  // 100.00
+				sizes[I] = 6; // 100.00
 
 		// Continue the recursion
 		size_each(std::forward<TupleType>(t),
-				  sizes,
-				  std::integral_constant<size_t, I + 1>());
+			sizes,
+			std::integral_constant<size_t, I + 1>());
 	}
 
 	/**
 	 * The function that is actually called that starts the recursion
 	 */
 	template <typename TupleType>
-	void size_each(TupleType &&t, std::vector<unsigned int> &sizes) {
+	void size_each(TupleType && t, std::vector<unsigned int> & sizes)
+	{
 		size_each(std::forward<TupleType>(t),
-				  sizes,
-				  std::integral_constant<size_t, 0>());
+			sizes,
+			std::integral_constant<size_t, 0>());
 	}
 
 	/**
 	 * Finds the size each column should be and set it in _column_sizes
 	 */
-	void size_columns() {
+	void size_columns()
+	{
 		_column_sizes.resize(_num_columns);
 
 		// Temporary for querying each row
@@ -347,7 +374,8 @@ class VariadicTable {
 			_column_sizes[i] = _headers[i].size();
 
 		// Grab the size of each entry of each row and see if it's bigger
-		for (auto &row : _data) {
+		for (auto & row : _data)
+		{
 			size_each(row, column_sizes);
 
 			for (unsigned int i = 0; i < _num_columns; i++)

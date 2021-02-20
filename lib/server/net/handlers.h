@@ -7,40 +7,49 @@
 
 #include "lib/server/index/storage.h"
 
-namespace search {
+namespace search
+{
+inline std::string SyntaxError()
+{
+	return "Syntax error";
+}
 
-inline std::string SyntaxError() { return "Syntax error"; }
+inline std::string BadIndexName()
+{
+	return "Index not found";
+}
 
-inline std::string BadIndexName() { return "Index not found"; }
-
-class Ping : public Poco::Net::HTTPRequestHandler {
-   private:
-	virtual void handleRequest(Poco::Net::HTTPServerRequest &request,
-							   Poco::Net::HTTPServerResponse &response);
+class Ping : public Poco::Net::HTTPRequestHandler
+{
+private:
+	virtual void handleRequest(Poco::Net::HTTPServerRequest & request,
+		Poco::Net::HTTPServerResponse & response);
 };
 
-class HandleSqlCommand : public Poco::Net::HTTPRequestHandler {
-   public:
-	explicit HandleSqlCommand(IndexStorage &storage);
+class HandleSqlCommand : public Poco::Net::HTTPRequestHandler
+{
+public:
+	explicit HandleSqlCommand(IndexStorage & storage);
 
-   private:
-	virtual void handleRequest(Poco::Net::HTTPServerRequest &request,
-							   Poco::Net::HTTPServerResponse &response);
+private:
+	virtual void handleRequest(Poco::Net::HTTPServerRequest & request,
+		Poco::Net::HTTPServerResponse & response);
 
-   private:
-	IndexStorage &storage_;
+private:
+	IndexStorage & storage_;
 };
 
-class HandlerFactory : public Poco::Net::HTTPRequestHandlerFactory {
-   public:
-	explicit HandlerFactory(IndexStorage &storage);
+class HandlerFactory : public Poco::Net::HTTPRequestHandlerFactory
+{
+public:
+	explicit HandlerFactory(IndexStorage & storage);
 
-   private:
-	virtual Poco::Net::HTTPRequestHandler *createRequestHandler(
-		const Poco::Net::HTTPServerRequest &request);
+private:
+	virtual Poco::Net::HTTPRequestHandler * createRequestHandler(
+		const Poco::Net::HTTPServerRequest & request);
 
-   private:
-	IndexStorage &storage_;
+private:
+	IndexStorage & storage_;
 };
 
-}  // namespace search
+} // namespace search

@@ -6,14 +6,15 @@
 #include "index.h"
 #include "ram.h"
 
-namespace search {
+namespace search
+{
+class RTIndex : public Index
+{
+	virtual void ExecuteSelect(const Query & tQuery);
 
-class RTIndex : public Index {
-	virtual void ExecuteSelect(const Query &tQuery);
-
-   private:
+private:
 	std::unique_ptr<RamSegment> pRamSegment;
 	std::vector<std::unique_ptr<DiskSegment>> m_dDiskSegments;
 };
 
-}  // namespace search
+} // namespace search

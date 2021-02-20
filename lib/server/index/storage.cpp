@@ -2,14 +2,17 @@
 
 #include "lib/server/index/ram.h"
 
-namespace search {
-
+namespace search
+{
 void IndexStorage::InitializeStorage(
-	const std::shared_ptr<SearchConfig> &pConfig) {
+	const std::shared_ptr<SearchConfig> & pConfig)
+{
 	m_pConfig = pConfig;
 
-	for (auto &[sName, pIndexConfig] : m_pConfig->index) {
-		if (pIndexConfig->iIndexType == IndexType::Template) {
+	for (auto & [sName, pIndexConfig] : m_pConfig->index)
+	{
+		if (pIndexConfig->iIndexType == IndexType::Template)
+		{
 			continue;
 		}
 
@@ -17,15 +20,18 @@ void IndexStorage::InitializeStorage(
 	}
 }
 
-bool IndexStorage::AttachIndex(const std::string &sName,
-							   const std::shared_ptr<IndexConfig> &pConfig) {
-	auto &pIndex = m_hStorage[sName];
+bool IndexStorage::AttachIndex(const std::string & sName,
+	const std::shared_ptr<IndexConfig> & pConfig)
+{
+	auto & pIndex = m_hStorage[sName];
 
-	if (pIndex != nullptr) {
+	if (pIndex != nullptr)
+	{
 		return false;
 	}
 
-	switch (pConfig->iIndexType) {
+	switch (pConfig->iIndexType)
+	{
 		case IndexType::Template:
 			throw std::runtime_error("Attempt to attach template index");
 		case IndexType::Dummy:
@@ -41,13 +47,15 @@ bool IndexStorage::AttachIndex(const std::string &sName,
 }
 
 std::shared_ptr<Index> IndexStorage::GetIndex(
-	const std::string &index_name) const {
+	const std::string & index_name) const
+{
 	auto iterator = m_hStorage.find(index_name);
-	if (iterator == m_hStorage.end()) {
+	if (iterator == m_hStorage.end())
+	{
 		return nullptr;
 	}
 
 	return iterator->second;
 }
 
-}  // namespace search
+} // namespace search

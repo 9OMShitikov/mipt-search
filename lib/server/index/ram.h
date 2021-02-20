@@ -5,27 +5,28 @@
 #include "lib/server/morphology/morph.h"
 #include "lib/std/string.h"
 
-namespace search {
-
-class RamSegment : public Index {
+namespace search
+{
+class RamSegment : public Index
+{
 public:
 	using IndexData = std::unordered_map<String, std::vector<Hit>>;
 
 	RamSegment() = default;
-	explicit RamSegment(const std::shared_ptr<IndexConfig> &pIndexConfig);
+	explicit RamSegment(const std::shared_ptr<IndexConfig> & pIndexConfig);
 
-	virtual void ExecuteSelect(const Query &tQuery);
+	virtual void ExecuteSelect(const Query & tQuery);
 
-	void Flush(const std::string &sPath);
+	void Flush(const std::string & sPath);
 
-	inline void SetData(const IndexData& data) { m_dDataIndex = data; };
+	inline void SetData(const IndexData & data) { m_dDataIndex = data; };
 	inline IndexData GetData() const { return m_dDataIndex; };
 
 private:
 	std::unordered_map<uint32_t, std::vector<Hit>> GetQueryHits(
-		const Query &tQuery);
+		const Query & tQuery);
 
-	void AddField(const String &sField, uint32_t iDocumentId, uint8_t iFieldId);
+	void AddField(const String & sField, uint32_t iDocumentId, uint8_t iFieldId);
 
 private:
 	// Your code goes here...
@@ -37,4 +38,4 @@ private:
 	IndexData m_dDataIndex;
 };
 
-}  // namespace search
+} // namespace search

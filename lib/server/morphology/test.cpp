@@ -3,7 +3,8 @@
 
 #include "stemming.h"
 
-TEST_CASE("(Stemming) Basic") {
+TEST_CASE("(Stemming) Basic")
+{
 	auto stemmer = Stemmer("../bin/mystem");
 
 	REQUIRE(stemmer.Process("красивее") == "красивый");
@@ -15,7 +16,8 @@ TEST_CASE("(Stemming) Basic") {
 	REQUIRE(stemmer.Process("ранняя закат") == "ранний");
 }
 
-TEST_CASE("(Stemming) Incorrect") {
+TEST_CASE("(Stemming) Incorrect")
+{
 	auto stemmer = Stemmer("../bin/mystem");
 
 	REQUIRE(stemmer.Process("˙∆∆∆åß") == "˙∆∆∆åß");

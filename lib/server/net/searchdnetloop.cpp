@@ -2,10 +2,11 @@
 
 #include "handlers.h"
 
-namespace search {
-
-Socket::Socket(const std::string &address)
-	: Poco::Net::Socket(new ServerSocketImpl()) {
+namespace search
+{
+Socket::Socket(const std::string & address)
+	: Poco::Net::Socket(new ServerSocketImpl())
+{
 	const Poco::Net::SocketAddress socket_address(address);
 	auto socket = dynamic_cast<ServerSocketImpl *>(impl());
 	socket->init(socket_address.af());
@@ -15,7 +16,8 @@ Socket::Socket(const std::string &address)
 	socket->listen();
 }
 
-void NetworkServer::defineOptions(Poco::Util::OptionSet &tOptions) {
+void NetworkServer::defineOptions(Poco::Util::OptionSet & tOptions)
+{
 	tOptions.addOption(Poco::Util::Option("config", "C")
 						   .required(true)
 						   .repeatable(false)
@@ -24,12 +26,14 @@ void NetworkServer::defineOptions(Poco::Util::OptionSet &tOptions) {
 							   this, &NetworkServer::handleConfig)));
 }
 
-void NetworkServer::handleConfig(const std::string &name,
-								 const std::string &value) {
+void NetworkServer::handleConfig(const std::string & name,
+	const std::string & value)
+{
 	m_pConfig = LoadConfig(value);
 }
 
-int NetworkServer::main(const std::vector<std::string> &args) {
+int NetworkServer::main(const std::vector<std::string> & args)
+{
 	// set locale
 	std::locale::global(
 		std::locale(std::locale(), new std::codecvt_utf8<wchar_t>));
@@ -55,4 +59,4 @@ int NetworkServer::main(const std::vector<std::string> &args) {
 	return 0;
 }
 
-}  // namespace search
+} // namespace search

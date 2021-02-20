@@ -16,25 +16,28 @@
 
 #include "lib/std/string.h"
 
-namespace search {
-
+namespace search
+{
 // loc_("ru_RU.UTF-8")
-class StemmingImpl {
-   public:
-	explicit StemmingImpl(const std::string &path) {
+class StemmingImpl
+{
+public:
+	explicit StemmingImpl(const std::string & path)
+	{
 		// Your code goes here..
 		// Think about fork and pipe
 	}
 
-	std::string Process(const std::string &word) { return word; }
+	std::string Process(const std::string & word) { return word; }
 
-	~StemmingImpl() {
+	~StemmingImpl()
+	{
 		// Your code goes here...
 		// Clean up all
 	}
 
-   private:
+private:
 	// Your code goes here...
 };
 
-}  // namespace search
+} // namespace search

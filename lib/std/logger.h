@@ -12,11 +12,12 @@
 
 #define logError(msg) std::cerr << "[ERROR] " << msg << '\n';
 
-#define logFatal(msg)                       \
+#define logFatal(msg) \
 	std::cerr << "[FATAL] " << msg << '\n'; \
 	exit(1);
 
-inline bool IsFileExisting(const std::string &sPath) {
+inline bool IsFileExisting(const std::string & sPath)
+{
 	struct stat buffer;
 	return (stat(sPath.c_str(), &buffer) == 0);
 }

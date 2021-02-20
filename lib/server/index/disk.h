@@ -4,18 +4,19 @@
 
 #include "index.h"
 
-namespace search {
+namespace search
+{
+class DiskSegment : public Index
+{
+public:
+	void ExecuteSelect(const Query & tQuery) override;
 
-class DiskSegment : public Index {
-   public:
-	void ExecuteSelect(const Query &tQuery) override;
-
-   private:
+private:
 	// Your code goes here
 	// Recommendation: write PlainPostingView
 
-   private:
+private:
 	std::unordered_map<std::string, std::vector<Hit>> m_dDataIndex;
 };
 
-}  // namespace search
+} // namespace search

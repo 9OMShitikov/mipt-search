@@ -12,20 +12,24 @@
 #include "lib/server/sql/driver.hh"
 #include "lib/std/string.h"
 
-namespace search {
-
-void Ping::handleRequest(Poco::Net::HTTPServerRequest &request,
-						 Poco::Net::HTTPServerResponse &response) {
+namespace search
+{
+void Ping::handleRequest(Poco::Net::HTTPServerRequest & request,
+	Poco::Net::HTTPServerResponse & response)
+{
 	logInfo("Ping got");
 
 	response.send().flush();
 	response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK);
 }
 
-HandleSqlCommand::HandleSqlCommand(IndexStorage &storage) : storage_(storage) {}
+HandleSqlCommand::HandleSqlCommand(IndexStorage & storage)
+	: storage_(storage)
+{}
 
-void HandleSqlCommand::handleRequest(Poco::Net::HTTPServerRequest &request,
-									 Poco::Net::HTTPServerResponse &response) {
+void HandleSqlCommand::handleRequest(Poco::Net::HTTPServerRequest & request,
+	Poco::Net::HTTPServerResponse & response)
+{
 	char command[4096];
 
 	request.stream().read(command, 4096);
@@ -39,7 +43,8 @@ void HandleSqlCommand::handleRequest(Poco::Net::HTTPServerRequest &request,
 	auto query = parse_driver.Parse(command);
 
 	// Response error
-	if (query == nullptr) {
+	if (query == nullptr)
+	{
 		// Your code goes here...
 
 		return;
@@ -57,23 +62,29 @@ void HandleSqlCommand::handleRequest(Poco::Net::HTTPServerRequest &request,
 	response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK);
 }
 
-HandlerFactory::HandlerFactory(IndexStorage &storage) : storage_(storage) {}
+HandlerFactory::HandlerFactory(IndexStorage & storage)
+	: storage_(storage)
+{}
 
-Poco::Net::HTTPRequestHandler *HandlerFactory::createRequestHandler(
-	const Poco::Net::HTTPServerRequest &request) {
-	if (request.getMethod() != Poco::Net::HTTPRequest::HTTP_GET) return nullptr;
+Poco::Net::HTTPRequestHandler * HandlerFactory::createRequestHandler(
+	const Poco::Net::HTTPServerRequest & request)
+{
+	if (request.getMethod() != Poco::Net::HTTPRequest::HTTP_GET)
+		return nullptr;
 
 	logInfo("Get query with endpoint: " << request.getURI());
 
-	if (request.getURI() == "/ping") {
+	if (request.getURI() == "/ping")
+	{
 		return new Ping();
 	}
 
-	if (request.getURI() == "/sql_command") {
+	if (request.getURI() == "/sql_command")
+	{
 		return new HandleSqlCommand(storage_);
 	}
 
 	return nullptr;
 }
 
-}  // namespace search
+} // namespace search

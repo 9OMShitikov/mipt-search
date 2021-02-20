@@ -11,7 +11,8 @@
 #include "cmdparser.h"
 #include "variadic_table.h"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char * argv[])
+{
 	Poco::Net::HTTPClientSession session("127.0.0.1", 5849);
 
 	{
@@ -20,24 +21,29 @@ int main(int argc, char *argv[]) {
 		Poco::Net::HTTPResponse response;
 		session.receiveResponse(response);
 
-		if (response.getStatus() != 200) {
+		if (response.getStatus() != 200)
+		{
 			std::cerr << "Can't connect to server" << std::endl;
 			return -1;
 		}
 	}
 
 	CommandLineParser parser(std::cin, std::cout);
-	while (parser.Parse()) {
-		if (parser.IsCompleted()) {
+	while (parser.Parse())
+	{
+		if (parser.IsCompleted())
+		{
 			// Your code goes here...
 
 			std::string error;
 
-			if (!error.empty()) {
+			if (!error.empty())
+			{
 				std::cerr << error << std::endl;
-			} else {
+			} else
+			{
 				VariadicTable<std::string, std::string> vt(
-					{"document_id", "weight"}, 10);
+					{ "document_id", "weight" }, 10);
 
 				// Your code goes here...
 			}

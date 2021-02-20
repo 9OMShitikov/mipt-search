@@ -14,28 +14,32 @@
 #include "lib/std/csv_parser.h"
 #include "lib/std/string.h"
 
-namespace search {
-
-RamSegment::RamSegment(const std::shared_ptr<IndexConfig> &pIndexConfig) {
+namespace search
+{
+RamSegment::RamSegment(const std::shared_ptr<IndexConfig> & pIndexConfig)
+{
 	// Init morphology
 	m_pFilter = CreateFilter(pIndexConfig);
 
 	uifstream iIn(pIndexConfig->sSource);
 
 	// Building ram index
-	if (iIn.is_open()) {
+	if (iIn.is_open())
+	{
 		logInfo("Build RAM index from file " << pIndexConfig->sSource);
 
 		// Your code goes here...
 		// help: use CsvParser, AddField
 
 		logInfo("Index ready");
-	} else {
+	} else
+	{
 		logFatal("Can't open source " << pIndexConfig->sSource);
 	}
 }
 
-void RamSegment::ExecuteSelect(const Query &tQuery) {
+void RamSegment::ExecuteSelect(const Query & tQuery)
+{
 	// Your code goes here...
 	// help: create ranker, proceed hits
 	// You are able to compute hits and then proceed them
@@ -44,7 +48,8 @@ void RamSegment::ExecuteSelect(const Query &tQuery) {
 }
 
 std::unordered_map<uint32_t, std::vector<Hit>> RamSegment::GetQueryHits(
-	const Query &tQuery) {
+	const Query & tQuery)
+{
 	static auto fInMask = [](uint32_t iMask, uint8_t iPos) {
 		return iMask & (1u << iPos);
 	};
@@ -57,15 +62,17 @@ std::unordered_map<uint32_t, std::vector<Hit>> RamSegment::GetQueryHits(
 	return dWordMatch;
 }
 
-void RamSegment::AddField(const String &sField,
-						  uint32_t iDocumentId,
-						  uint8_t iFieldId) {
+void RamSegment::AddField(const String & sField,
+	uint32_t iDocumentId,
+	uint8_t iFieldId)
+{
 	// Your code goes here...
 	// help: use m_pFilter and ParseWords
 }
 
-void RamSegment::Flush(const std::string &sPath) {
+void RamSegment::Flush(const std::string & sPath)
+{
 	// Your code goes here...
 }
 
-}  // namespace search
+} // namespace search

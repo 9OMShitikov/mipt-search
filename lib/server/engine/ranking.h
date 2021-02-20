@@ -10,35 +10,38 @@
 // Init - make some initialization before proceeding query
 // ProceedHit - proceed hit in one document
 // Complete - marks that document hits completed and returns weight
-class IRanker {
-   public:
+class IRanker
+{
+public:
 	virtual void Init(IndexStats stat) = 0;
 	virtual void ProceedHit(Hit hit) = 0;
 	virtual double Complete() = 0;
 };
 
 // Ranking by count of hits
-class DummyRanker : public IRanker {
-   public:
+class DummyRanker : public IRanker
+{
+public:
 	DummyRanker() = default;
 
 	virtual void Init(IndexStats stat);
 	virtual void ProceedHit(Hit hit);
 	virtual double Complete();
 
-   private:
+private:
 	int hit_count_;
 };
 
-class BM25Ranker : public IRanker {
-   public:
+class BM25Ranker : public IRanker
+{
+public:
 	BM25Ranker() = default;
 
 	virtual void Init(IndexStats stat);
 	virtual void ProceedHit(Hit hit);
 	virtual double Complete();
 
-   private:
+private:
 	// default params for BM25
 	constexpr static double m_dB = 0.75;
 	constexpr static double m_dK = 2.0;

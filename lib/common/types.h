@@ -10,47 +10,68 @@
 
 #define c_size(container) static_cast<int>((container).size())
 
-struct IndexStats {
+struct IndexStats
+{
 	uint32_t m_uDocumentCount = 0;
 	uint32_t m_uDocumentTotalLen = 0;
 };
 
-struct WordMetadata {
+struct WordMetadata
+{
 	uint32_t m_iDocumentCount = 0;
 };
 
 using IndexMetadata = std::unordered_map<std::wstring, WordMetadata>;
 
-struct Match {
+struct Match
+{
 	uint32_t m_iDocumentId;
 };
 
-struct Hit {
+struct Hit
+{
 	uint32_t m_iDocumentId;
 	uint8_t m_bFieldId;
 	uint8_t m_bHitPos;
 };
 
-enum class RankerType { DummyRanker, BM25 };
+enum class RankerType
+{
+	DummyRanker,
+	BM25
+};
 
-enum class IndexType { Template, Dummy, Plain, RT };
+enum class IndexType
+{
+	Template,
+	Dummy,
+	Plain,
+	RT
+};
 
-inline IndexType GetIndexTypeFromName(const std::string &name) {
-	if (name == "template") {
+inline IndexType GetIndexTypeFromName(const std::string & name)
+{
+	if (name == "template")
+	{
 		return IndexType::Template;
-	} else if (name == "dummy") {
+	} else if (name == "dummy")
+	{
 		return IndexType::Dummy;
-	} else if (name == "plain") {
+	} else if (name == "plain")
+	{
 		return IndexType::Plain;
-	} else if (name == "rt") {
+	} else if (name == "rt")
+	{
 		return IndexType::RT;
 	}
 
 	throw std::runtime_error("Unknown index name");
 }
 
-inline std::string GetIndexNameFromType(IndexType type) {
-	switch (type) {
+inline std::string GetIndexNameFromType(IndexType type)
+{
+	switch (type)
+	{
 		case IndexType::Template: return "template";
 		case IndexType::Dummy: return "dummy";
 		case IndexType::Plain: return "plain";
@@ -62,7 +83,8 @@ inline std::string GetIndexNameFromType(IndexType type) {
 
 struct Context;
 
-struct Query {
+struct Query
+{
 	std::string m_sIndexName;
 	int m_iLimit = -1;
 
@@ -73,6 +95,7 @@ struct Query {
 	std::shared_ptr<Context> m_pContext;
 };
 
-inline bool QueryHasMatch(const Query &query) {
+inline bool QueryHasMatch(const Query & query)
+{
 	return !query.m_dMatchFieldMask.empty();
 }

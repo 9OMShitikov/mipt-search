@@ -2,12 +2,13 @@
 
 #include <queue>
 
-namespace search {
-
-void DiskSegment::ExecuteSelect(const Query &tQuery) {
+namespace search
+{
+void DiskSegment::ExecuteSelect(const Query & tQuery)
+{
 	// Your code goes here...
 	// think about perfomance
 	// use compression
 }
 
-}  // namespace search
+} // namespace search
