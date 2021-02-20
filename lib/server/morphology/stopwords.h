@@ -1,23 +1,23 @@
 #pragma once
 
-#include "filter.h"
+#include <filesystem>
 #include <unordered_set>
 
-#include <filesystem>
+#include "filter.h"
 
 namespace search {
 
 namespace fs = std::filesystem;
 
 class StopWords : public Filter {
-public:
-	explicit StopWords(const fs::path & sFileName);
+   public:
+	explicit StopWords(const fs::path &sFileName);
 
 	virtual std::optional<String> Produce() override;
 	virtual void Consume(const String &) override;
 
-private:
+   private:
 	// Your code goes here...
 };
 
-}
+}  // namespace search

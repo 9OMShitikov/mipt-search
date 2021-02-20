@@ -1,5 +1,4 @@
 #include <catch.hpp>
-
 #include <sstream>
 
 #include "stemming.h"
@@ -17,7 +16,7 @@ TEST_CASE("(Stemming) Basic") {
 }
 
 TEST_CASE("(Stemming) Incorrect") {
-    auto stemmer = Stemmer("../bin/mystem");
+	auto stemmer = Stemmer("../bin/mystem");
 
-    REQUIRE(stemmer.Process("˙∆∆∆åß") == "˙∆∆∆åß");
+	REQUIRE(stemmer.Process("˙∆∆∆åß") == "˙∆∆∆åß");
 }

@@ -1,5 +1,4 @@
 #include <catch.hpp>
-
 #include <sstream>
 
 #include "cmdparser.h"
@@ -22,9 +21,10 @@ TEST_CASE("(CMDParser) Basic commands") {
 }
 
 TEST_CASE("(CMDParser) Several lines") {
-	std::string query = "SELECT *\n"
-					 	"FROM rt\n"
-	   					"WHERE id > 10;";
+	std::string query =
+		"SELECT *\n"
+		"FROM rt\n"
+		"WHERE id > 10;";
 
 	std::stringstream in(query), out;
 	CommandLineParser parser(in, out);

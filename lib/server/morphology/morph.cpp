@@ -1,26 +1,25 @@
 #include "morph.h"
 
+#include <filesystem>
+
+#include "lower.h"
 #include "mappings.h"
 #include "stemming.h"
-#include "mappings.h"
 #include "stopwords.h"
-#include "lower.h"
-
-#include <filesystem>
 
 namespace search {
 
 namespace fs = std::filesystem;
 
 // init morphology; exact order is important
-std::shared_ptr<Filter> CreateFilter(const std::shared_ptr<IndexConfig> & pConfig) {
+std::shared_ptr<Filter> CreateFilter(
+	const std::shared_ptr<IndexConfig> &pConfig) {
 	// this filter should be always
 	std::shared_ptr<Filter> tFilter = std::make_shared<Lower>();
 	std::shared_ptr<Filter> tLast = tFilter;
 
-	auto fCheck = [](const auto& oPath) {
-		if (!oPath)
-			return false;
+	auto fCheck = [](const auto &oPath) {
+		if (!oPath) return false;
 
 		if (!fs::exists(*oPath)) {
 			logWarning("Morphology file doesn't exist: " << *oPath);
@@ -37,4 +36,4 @@ std::shared_ptr<Filter> CreateFilter(const std::shared_ptr<IndexConfig> & pConfi
 	return tFilter;
 }
 
-}
+}  // namespace search

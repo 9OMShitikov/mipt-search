@@ -2,12 +2,14 @@
 
 #include <stdexcept>
 
-void DummyRanker::Init(IndexStats) {
+void DummyRanker::Init(IndexStats stats) {
 	// Your code goes here
+	UNUSED(stats);
 };
 
 void DummyRanker::ProceedHit(Hit hit) {
 	// Your code goes here
+	UNUSED(hit);
 };
 
 double DummyRanker::Complete() {
@@ -17,10 +19,12 @@ double DummyRanker::Complete() {
 
 void BM25Ranker::Init(IndexStats stats) {
 	// Your code goes here
+	UNUSED(stats);
 }
 
 void BM25Ranker::ProceedHit(Hit hit) {
 	// Your code goes here
+	UNUSED(hit);
 }
 
 double BM25Ranker::Complete() {
@@ -36,7 +40,6 @@ std::shared_ptr<IRanker> CreateRanker(RankerType rankerType) {
 		case RankerType::BM25: {
 			return std::make_shared<BM25Ranker>();
 		}
-		default:
-			throw std::runtime_error("Unimplemented ranker");
+		default: throw std::runtime_error("Unimplemented ranker");
 	}
 }

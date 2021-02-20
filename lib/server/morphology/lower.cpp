@@ -21,4 +21,4 @@ void Lower::Consume(const String &sWord) {
 		m_pNext->Consume(ToLower(sWord));
 }
 
-}
+}  // namespace search

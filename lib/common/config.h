@@ -2,84 +2,84 @@
 
 #include <cassert>
 #include <cstring>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <memory>
 #include <optional>
 #include <unordered_map>
-#include <memory>
 
-#include "types.h"
 #include "lib/std/logger.h"
+#include "types.h"
 
 struct IndexConfig {
-    std::string sIndexName;
-    IndexType iIndexType;
-    std::string sSource;
-    std::string sIndexDataPath;
-    std::optional<std::string> sPathToStemmer = std::nullopt;
-    std::shared_ptr<IndexConfig> pInherit = nullptr;
-    std::optional<std::string> sStopwords = std::nullopt;
-    std::optional<std::string> sWordForms = std::nullopt;
+	std::string sIndexName;
+	IndexType iIndexType;
+	std::string sSource;
+	std::string sIndexDataPath;
+	std::optional<std::string> sPathToStemmer = std::nullopt;
+	std::shared_ptr<IndexConfig> pInherit = nullptr;
+	std::optional<std::string> sStopwords = std::nullopt;
+	std::optional<std::string> sWordForms = std::nullopt;
 
-    explicit IndexConfig(std::string sIndexName = "",
-                         IndexType iIndexType = IndexType::Template,
-                         std::string sSource = "",
-                         std::string sIndexDataPath = "",
-                         std::string sPathToStemmer = "",
-                         std::shared_ptr<IndexConfig> pInherit = nullptr,
-                         std::string sStopwords = "",
-                         std::string sWordForms = "")
-            : sIndexName(std::move(sIndexName)),
-              iIndexType(iIndexType),
-              sSource(std::move(sSource)),
-              sIndexDataPath(std::move(sIndexDataPath)) {
-        if (!sPathToStemmer.empty()) {
-            this->sPathToStemmer = std::move(sPathToStemmer);
-        }
-        if (pInherit) {
-            this->pInherit = std::move(pInherit);
-        }
-        if (!sStopwords.empty()) {
-            this->sStopwords = std::move(sStopwords);
-        }
-        if (!sWordForms.empty()) {
-            this->sWordForms = std::move(sWordForms);
-        }
-    }
+	explicit IndexConfig(std::string sIndexName = "",
+						 IndexType iIndexType = IndexType::Template,
+						 std::string sSource = "",
+						 std::string sIndexDataPath = "",
+						 std::string sPathToStemmer = "",
+						 std::shared_ptr<IndexConfig> pInherit = nullptr,
+						 std::string sStopwords = "",
+						 std::string sWordForms = "")
+		: sIndexName(std::move(sIndexName))
+		, iIndexType(iIndexType)
+		, sSource(std::move(sSource))
+		, sIndexDataPath(std::move(sIndexDataPath)) {
+		if (!sPathToStemmer.empty()) {
+			this->sPathToStemmer = std::move(sPathToStemmer);
+		}
+		if (pInherit) {
+			this->pInherit = std::move(pInherit);
+		}
+		if (!sStopwords.empty()) {
+			this->sStopwords = std::move(sStopwords);
+		}
+		if (!sWordForms.empty()) {
+			this->sWordForms = std::move(sWordForms);
+		}
+	}
 
-    static std::shared_ptr<IndexConfig> DummyIndexConfig(std::string sSource = "",
-                                                         std::string sIndexDataPath = "",
-                                                         std::string sPathToStemmer = "",
-                                                         std::shared_ptr<IndexConfig> pInherit = nullptr,
-                                                         std::string sStopwords = "",
-                                                         std::string sWordForms = "") {
-        return std::make_shared<IndexConfig>("dummy",
-                                             IndexType::Dummy,
-                                             std::move(sSource),
-                                             std::move(sIndexDataPath),
-                                             std::move(sPathToStemmer),
-                                             std::move(pInherit),
-                                             std::move(sStopwords),
-                                             std::move(sWordForms));
-    }
+	static std::shared_ptr<IndexConfig> DummyIndexConfig(
+		std::string sSource = "",
+		std::string sIndexDataPath = "",
+		std::string sPathToStemmer = "",
+		std::shared_ptr<IndexConfig> pInherit = nullptr,
+		std::string sStopwords = "",
+		std::string sWordForms = "") {
+		return std::make_shared<IndexConfig>("dummy",
+											 IndexType::Dummy,
+											 std::move(sSource),
+											 std::move(sIndexDataPath),
+											 std::move(sPathToStemmer),
+											 std::move(pInherit),
+											 std::move(sStopwords),
+											 std::move(sWordForms));
+	}
 };
 
 struct SearchConfig {
-    std::unordered_map<std::string, std::shared_ptr<IndexConfig>> index;
-    std::string indexDirectory;
+	std::unordered_map<std::string, std::shared_ptr<IndexConfig>> index;
+	std::string indexDirectory;
 };
 
 inline std::shared_ptr<SearchConfig> LoadConfig(const std::string &path) {
-    std::ifstream in(path);
+	std::ifstream in(path);
 
-    if (!in.is_open())
-    	throw std::runtime_error(strerror(errno));
+	if (!in.is_open()) throw std::runtime_error(strerror(errno));
 
-    auto searchConfig = std::make_shared<SearchConfig>();
+	auto searchConfig = std::make_shared<SearchConfig>();
 
-    std::string token;
-    while (in >> token) {
-    	if (token == "index") {
+	std::string token;
+	while (in >> token) {
+		if (token == "index") {
 			std::string index_name;
 			in >> index_name;
 			auto &indexConfig = searchConfig->index[index_name];
@@ -92,10 +92,12 @@ inline std::shared_ptr<SearchConfig> LoadConfig(const std::string &path) {
 				// it means that index inherits from
 				in >> token;
 
-				if (searchConfig->index.find(token) != searchConfig->index.end())
+				if (searchConfig->index.find(token) !=
+					searchConfig->index.end())
 					indexConfig->pInherit = searchConfig->index[token];
 				else {
-					logWarning("No inherit index" << token << " for " << index_name);
+					logWarning("No inherit index" << token << " for "
+												  << index_name);
 					logWarning("Skipping...");
 				}
 
@@ -139,10 +141,10 @@ inline std::shared_ptr<SearchConfig> LoadConfig(const std::string &path) {
 					assert(0);
 			}
 		} else
-    		assert(0);
+			assert(0);
 
-        assert(token == "}");
-    }
+		assert(token == "}");
+	}
 
-    return searchConfig;
+	return searchConfig;
 }

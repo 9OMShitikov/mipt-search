@@ -1,34 +1,31 @@
 #include "handlers.h"
 
-#include <Poco/Net/HTTPServerResponse.h>
-#include <Poco/Net/HTTPServerRequest.h>
 #include <Poco/JSON/Object.h>
-
-#include "lib/server/sql/driver.hh"
-#include "lib/server/sql/ast.h"
-
-#include "lib/server/net/context.h"
-
-#include "lib/server/morphology/stemming.h"
-
-#include "lib/std/string.h"
+#include <Poco/Net/HTTPServerRequest.h>
+#include <Poco/Net/HTTPServerResponse.h>
 
 #include <sstream>
 
+#include "lib/server/morphology/stemming.h"
+#include "lib/server/net/context.h"
+#include "lib/server/sql/ast.h"
+#include "lib/server/sql/driver.hh"
+#include "lib/std/string.h"
+
 namespace search {
 
-void Ping::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response) {
+void Ping::handleRequest(Poco::Net::HTTPServerRequest &request,
+						 Poco::Net::HTTPServerResponse &response) {
 	logInfo("Ping got");
 
 	response.send().flush();
 	response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK);
 }
 
-HandleSqlCommand::HandleSqlCommand(IndexStorage &storage) : storage_(storage) {
-}
+HandleSqlCommand::HandleSqlCommand(IndexStorage &storage) : storage_(storage) {}
 
-
-void HandleSqlCommand::handleRequest(Poco::Net::HTTPServerRequest &request, Poco::Net::HTTPServerResponse &response) {
+void HandleSqlCommand::handleRequest(Poco::Net::HTTPServerRequest &request,
+									 Poco::Net::HTTPServerResponse &response) {
 	char command[4096];
 
 	request.stream().read(command, 4096);
@@ -62,9 +59,9 @@ void HandleSqlCommand::handleRequest(Poco::Net::HTTPServerRequest &request, Poco
 
 HandlerFactory::HandlerFactory(IndexStorage &storage) : storage_(storage) {}
 
-Poco::Net::HTTPRequestHandler* HandlerFactory::createRequestHandler(const Poco::Net::HTTPServerRequest &request) {
-	if (request.getMethod() != Poco::Net::HTTPRequest::HTTP_GET)
-		return nullptr;
+Poco::Net::HTTPRequestHandler *HandlerFactory::createRequestHandler(
+	const Poco::Net::HTTPServerRequest &request) {
+	if (request.getMethod() != Poco::Net::HTTPRequest::HTTP_GET) return nullptr;
 
 	logInfo("Get query with endpoint: " << request.getURI());
 
@@ -79,4 +76,4 @@ Poco::Net::HTTPRequestHandler* HandlerFactory::createRequestHandler(const Poco::
 	return nullptr;
 }
 
-}
+}  // namespace search

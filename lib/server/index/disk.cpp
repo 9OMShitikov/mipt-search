@@ -10,4 +10,4 @@ void DiskSegment::ExecuteSelect(const Query &tQuery) {
 	// use compression
 }
 
-}
+}  // namespace search

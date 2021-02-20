@@ -2,7 +2,7 @@
 
 namespace search {
 
-void RTIndex::ExecuteSelect(const Query & tQuery) {
+void RTIndex::ExecuteSelect(const Query &tQuery){
 	// Your code goes here...
 };
 

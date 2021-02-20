@@ -4,10 +4,11 @@
 
 namespace search {
 
-void IndexStorage::InitializeStorage(const std::shared_ptr<SearchConfig> & pConfig) {
+void IndexStorage::InitializeStorage(
+	const std::shared_ptr<SearchConfig> &pConfig) {
 	m_pConfig = pConfig;
 
-	for (auto& [sName, pIndexConfig] : m_pConfig->index) {
+	for (auto &[sName, pIndexConfig] : m_pConfig->index) {
 		if (pIndexConfig->iIndexType == IndexType::Template) {
 			continue;
 		}
@@ -16,8 +17,9 @@ void IndexStorage::InitializeStorage(const std::shared_ptr<SearchConfig> & pConf
 	}
 }
 
-bool IndexStorage::AttachIndex(const std::string& sName, const std::shared_ptr<IndexConfig>& pConfig) {
-	auto& pIndex = m_hStorage[sName];
+bool IndexStorage::AttachIndex(const std::string &sName,
+							   const std::shared_ptr<IndexConfig> &pConfig) {
+	auto &pIndex = m_hStorage[sName];
 
 	if (pIndex != nullptr) {
 		return false;
@@ -31,13 +33,15 @@ bool IndexStorage::AttachIndex(const std::string& sName, const std::shared_ptr<I
 			pIndex = std::make_shared<RamSegment>(pConfig);
 			break;
 		default:
-			throw std::runtime_error("Index storage does not support this index type");
+			throw std::runtime_error(
+				"Index storage does not support this index type");
 	}
 
 	return true;
 }
 
-std::shared_ptr<Index> IndexStorage::GetIndex(const std::string &index_name) const {
+std::shared_ptr<Index> IndexStorage::GetIndex(
+	const std::string &index_name) const {
 	auto iterator = m_hStorage.find(index_name);
 	if (iterator == m_hStorage.end()) {
 		return nullptr;
@@ -46,4 +50,4 @@ std::shared_ptr<Index> IndexStorage::GetIndex(const std::string &index_name) con
 	return iterator->second;
 }
 
-}
+}  // namespace search

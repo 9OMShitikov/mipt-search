@@ -1,0 +1,17 @@
+# using clang-format version 5.0.0
+Language: Cpp
+BasedOnStyle: Google
+
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: true
+AlwaysBreakTemplateDeclarations: true
+BinPackArguments: false
+BinPackParameters: false
+BreakConstructorInitializersBeforeComma: true
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+
+IndentWrappedFunctionNames: true
+NamespaceIndentation: None
+IndentWidth: 4
+TabWidth: 4
+UseTab: ForContinuationAndIndentation

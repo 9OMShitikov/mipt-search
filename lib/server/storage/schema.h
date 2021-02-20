@@ -1,12 +1,7 @@
-#include <vector>
 #include <variant>
+#include <vector>
 
-enum class ColumnType {
-	Int,
-	Double,
-	Uint32,
-	Wstring
-};
+enum class ColumnType { Int, Double, Uint32, Wstring };
 
 using Column = std::variant<int, double, uint32_t, std::wstring>;
 

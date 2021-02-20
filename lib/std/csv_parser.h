@@ -1,10 +1,10 @@
 #pragma once
 
 class CsvParser {
-public:
+   public:
 	using Result = std::vector<std::wstring>;
 
-public:
+   public:
 	static Result ParseLine(const std::wstring &sLine) {
 		Result tResult;
 		uint32_t iPos = 0;
@@ -12,12 +12,10 @@ public:
 		auto sTitleFieldValue = ParseField(sLine, iPos);
 		auto sDescFieldValue = ParseField(sLine, iPos);
 
-		return {sIdFieldValue,
-				sTitleFieldValue,
-				sDescFieldValue};
+		return {sIdFieldValue, sTitleFieldValue, sDescFieldValue};
 	}
-	
-private:
+
+   private:
 	static std::wstring ParseField(const std::wstring &sLine, uint32_t &iPos) {
 		wchar_t cStopSymbol;
 		if (sLine[iPos] == L'"') {

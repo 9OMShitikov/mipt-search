@@ -1,17 +1,17 @@
-#include <iostream>
-
-#include <Poco/Net/HTTPRequest.h>
-#include <Poco/Net/HTTPResponse.h>
-#include <Poco/Net/HTTPClientSession.h>
-#include <Poco/URI.h>
-#include <Poco/Net/ServerSocket.h>
 #include <Poco/JSON/Object.h>
 #include <Poco/JSON/Parser.h>
+#include <Poco/Net/HTTPClientSession.h>
+#include <Poco/Net/HTTPRequest.h>
+#include <Poco/Net/HTTPResponse.h>
+#include <Poco/Net/ServerSocket.h>
+#include <Poco/URI.h>
+
+#include <iostream>
 
 #include "cmdparser.h"
 #include "variadic_table.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
 	Poco::Net::HTTPClientSession session("127.0.0.1", 5849);
 
 	{
@@ -36,7 +36,8 @@ int main(int argc, char* argv[]) {
 			if (!error.empty()) {
 				std::cerr << error << std::endl;
 			} else {
-				VariadicTable<std::string, std::string> vt({"document_id", "weight"}, 10);
+				VariadicTable<std::string, std::string> vt(
+					{"document_id", "weight"}, 10);
 
 				// Your code goes here...
 			}
