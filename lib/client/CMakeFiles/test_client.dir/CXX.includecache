@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/oleg/Desktop/BD/mipt-bigdata-infra-2021/lib/client/cmdparser.cpp
+cmdparser.h
+/home/oleg/Desktop/BD/mipt-bigdata-infra-2021/lib/client/cmdparser.h
+
+/home/oleg/Desktop/BD/mipt-bigdata-infra-2021/lib/client/cmdparser.h
+istream
+-
+ostream
+-
+string
+-
+
